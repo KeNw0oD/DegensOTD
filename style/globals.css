@@ -1,0 +1,406 @@
+* {
+  box-sizing: border-box;
+}
+
+html, body, button, input, select, textarea, a {
+  font-family: 'Funnel Display', sans-serif;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+:root{
+  --logo-clear: 450px;          
+  --header-bg: #151c26; 
+  --fade: 450px;
+    --teal: #61d5c8;           
+  --teal-strong: #79e6d9;    
+  --btn-bg: rgba(19, 33, 39, .85);       
+  --btn-bg-hover: rgba(26, 47, 54, .92); 
+  --btn-border: rgba(117, 196, 188, .16);
+}
+
+.header {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  position: relative;
+  padding-left: var(--logo-clear);
+  
+}
+
+.header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0; /* ниже контента */
+  pointer-events: none;
+  background: linear-gradient(
+    to right,
+    rgba(0,0,0,0) 0,
+    rgba(0,0,0,0) var(--logo-clear),
+    var(--header-bg) calc(var(--logo-clear) + var(--fade)),
+    var(--header-bg) 100%
+  );
+}
+
+.header-inner {
+  position: relative;
+  z-index: 1; /* выше градиента */
+  height: 64px;
+  padding: 0 24px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+}
+
+.menu {
+  display: flex;
+  gap: 8px;
+  margin-left: 60px;
+}
+
+.menu__link {
+  padding: 6px 16px; /* меньше по вертикали, больше по горизонтали */
+  border-radius: 4px; /* прямоугольнее */
+  color: #45a6a5; /* чуть ярче текста */
+  background: #14252c; /* цвет как на картинке */
+  font-weight: 600;
+  font-size: 17px;
+}
+
+.menu__link:hover {
+  background: #285052; /* чуть темнее при ховере */
+}
+
+.menu__link:hover {
+  background-color: #22494e; /* твой цвет фона */
+  color: #ffffff;            /* белый текст */
+}
+
+.hero-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 250px); /* минус высота хедера */
+  text-align: center;
+}
+
+.hero-text h1 span {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #45a6a5;
+  margin-bottom: 0.3rem;
+}
+
+.hero-text p {
+  margin-bottom: 0;
+  font-size: 2.3rem;
+  font-weight: 400;
+  color: #ffffff;
+  margin-top: 0.5rem;
+}
+
+.hero-text h1,
+.hero-text p {
+  margin: 0; /* полностью убираем отступы браузера */
+  padding: 0;
+}
+
+.hero-btn {
+  margin-top: 30px;
+  display: inline-block;
+  background-color: #45a6a5; /* бирюзовый фон */
+  color: #ffffff; /* белый текст */
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+  font-size: 1.1rem;
+}
+
+.hero-btn:hover {
+  background-color: #3b8f8e; /* чуть темнее при наведении */
+}
+
+.rainbet-logo {
+  margin-top: 12px;       /* отступ от кнопки */
+  max-width: 260px;       /* ограничиваем ширину */
+  height: auto;
+}
+
+.auth {
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 999px;
+  background: #3a4956;
+  display: inline-block;
+}
+
+.btn--ghost,
+.btn--primary {
+  background: none;
+  border: none;
+  color: #45a6a5;        /* чуть ярче */
+  font-weight: 400;
+  font-size: 17px;       /* чуть больше стандартного */
+  letter-spacing: 0.5px; /* лёгкое разрежение */
+  padding: 0;
+  cursor: pointer;
+  transition: color 0.2s ease, text-shadow 0.2s ease;
+}
+
+.btn--ghost:hover,
+.btn--primary:hover {
+  color: #ffffff; /* чисто белый при ховере */
+  text-shadow: 0 0 6px rgba(0, 227, 204, 0.6); /* бирюзовое свечение */
+}
+
+
+.main {
+  padding: 24px;
+}
+
+/* hero с логотипом */
+.hero {
+  max-width: 1200px;
+  margin: 24px auto 0;
+  padding: 0 24px;
+  min-height: 120px;
+  display: flex;
+  align-items: flex-start;
+}
+
+/* Увеличиваем лого, сохраняя центр на месте */
+.logo-fixed{
+  position: fixed;
+  top: -10px !important;              /* твои текущие отступы */
+  left: 30px !important; 
+  height: 200px;          /* базовый размер, можешь не трогать */
+  object-fit: contain;
+  z-index: 1000;
+  pointer-events: none;
+
+  /* масштаб от центра — центр останется в той же точке */
+  transform-origin: center center;
+  transform: scale(var(--logo-scale, 1.4)); /* меняй 1.4 на свой коэффициент */
+  will-change: transform;
+}
+
+:root {
+  --footer-bg: rgba(17, 31, 37, 0.95);
+  --teal: #45a6a5;
+  --footer-height: 48px; /* Высота футера */
+}
+
+/* ===== Футер ===== */
+.footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+  height: var(--footer-height);
+}
+
+/* Фон футера — центр слегка светлее, всё тёмное */
+.footer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: linear-gradient(
+    to right,
+    rgb(10, 14, 16) 0%,    /* самый тёмный левый край */
+    rgb(15, 20, 23) 25%,   /* мягкий переход */
+    rgb(20, 26, 30) 50%,   /* центр чуть светлее, но тёмный */
+    rgb(15, 20, 23) 75%,   /* мягкий переход */
+    rgb(10, 14, 16) 100%   /* самый тёмный правый край */
+  );
+}
+
+/* Внутренний контейнер футера */
+.footer-inner {
+  position: relative;
+  z-index: 1;
+  height: var(--footer-height);
+  display: grid;
+  grid-template-columns: 1fr auto 1fr; /* левая пустая | центр | правая */
+  align-items: center;
+}
+
+/* Центр: иконки */
+.footer-icons {
+  display: flex;
+  gap: 60px;
+  justify-content: center;
+}
+
+.footer-icons img {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+}
+
+/* Правая часть: текстовые ссылки */
+.footer-links {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-right: 20px;
+}
+
+.footer-links a {
+  color: var(--teal);
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.footer-links a:hover {
+  text-decoration: underline;
+}
+
+/* Разделительная точка между ссылками */
+.footer-links .dot {
+  width: 4px;
+  height: 4px;
+  background-color: #3a4956;
+  border-radius: 50%;
+}
+
+/* Отступ для контента, чтобы футер его не перекрывал */
+.main {
+  padding-bottom: calc(var(--footer-height) + 8px);
+}
+
+
+
+
+
+
+
+
+/* общий фон */
+body {
+  min-height: 100vh;
+  margin: 0;
+  background-color: #0b0f12; /* глубокий тёмный фон */
+  background-image:
+    /* левый верхний круг */
+    radial-gradient(
+      circle at -5% -25%,
+      rgba(69, 166, 165, 0.22) 0%,   /* центр — #45a6a5 с альфой */
+      rgba(69, 166, 165, 0.041) 41%, /* мягкое падение */
+      rgba(21, 28, 38, 0) 49%        /* полностью прозрачный */
+    ),
+    /* правый верхний круг */
+    radial-gradient(
+      circle at 105% -25%,
+      rgba(69, 166, 165, 0.22) 0%,
+      rgba(69, 166, 165, 0.041) 41%,
+      rgba(21, 28, 38, 0) 49%
+    ),
+    /* затемнение вниз */
+    linear-gradient(
+      to bottom,
+      rgba(0,0,0,0.20) 0%,
+      rgba(0,0,0,0.50) 60%,
+      rgba(0,0,0,0.85) 100%
+    );
+  background-blend-mode: screen, screen, normal;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: #ffffff;
+}
+
+
+
+
+
+.logo-fixed {
+  position: fixed;
+  top: 0px;      /* подправишь по вкусу */
+  left: 0px;
+  height: 200px;  /* больше размер */
+  display: block;
+  object-fit: contain;
+  z-index: 1000;  /* выше шапки */
+  pointer-events: none; /* не блокирует клики по шапке */
+}
+
+/* MODAL */
+.modal {
+  position: fixed; inset: 0; z-index: 1000; display: none;
+}
+.modal.is-open { display: block; }
+
+.modal__backdrop {
+  position: absolute; inset: 0;
+  background: rgba(0,0,0,.6); backdrop-filter: blur(2px);
+}
+
+.modal__dialog {
+  position: relative; margin: 10vh auto 0;
+  width: min(420px, 92vw);
+  background: #0e1117; border: 1px solid #1f2430; border-radius: 14px;
+  padding: 18px; box-shadow: 0 20px 60px rgba(0,0,0,.5);
+  animation: modalIn .12s ease-out;
+}
+@keyframes modalIn { from { transform: translateY(-4px); opacity:.8 } to { transform:none; opacity:1 } }
+
+.modal__close {
+  position: absolute; right: 10px; top: 8px;
+  background: none; border: 0; color: #8a94a6; font-size: 22px; cursor: pointer;
+}
+.modal__close:hover { color: #fff; }
+
+.tabs { display:flex; gap:8px; margin-bottom: 12px; }
+.tabs__btn { flex:1; background:#121826; color:#cfd3dc; border:1px solid #1f2430; padding:8px 10px; border-radius:10px; cursor:pointer; }
+.tabs__btn.is-active { background:#1a2030; color:#fff; border-color:#2d3750; }
+.tabs__panel { display:none; }
+.tabs__panel.is-active { display:block; }
+
+.form__input {
+  width:100%; background:#0b0f16; border:1px solid #232b3d;
+  color:#e7ebf3; border-radius:10px; padding:10px 12px; outline:none;
+}
+.form__input:focus { border-color:#3b82f6; }
+.btn--primary.block { width:100%; padding:10px 14px; border-radius:10px; border:1px solid #2d3750;
+  background:#2b63f3; color:#fff; cursor:pointer;
+}
+.btn--primary.block:hover { filter: brightness(1.05); }
+
+.waveOverlay{
+  position: fixed;
+  inset: 0;
+  z-index: 2;              /* выше фона, ниже контента/хедера, при необходимости подними/опусти */
+  pointer-events: none;
+  opacity: .85;            /* общая интенсивность */
+
+  /* мягкая маска, чтобы у краёв растворялась */
+  -webkit-mask-image: radial-gradient(120% 90% at 50% 60%, #000 55%, transparent 100%);
+  mask-image: radial-gradient(120% 90% at 50% 60%, #000 55%, transparent 100%);
+}
+
+/* еле заметная анимация плавного дрейфа (опционально) */
