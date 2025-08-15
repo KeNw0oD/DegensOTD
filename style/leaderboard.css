@@ -122,7 +122,7 @@ body {
 
 .top-card.silver,
 .top-card.bronze {
-  transform: translateY(-20px);
+  transform: translateY(-13px);
   padding-top: 0px;
   padding-bottom: 0px;
 }
@@ -132,42 +132,65 @@ body {
   margin-top: 0;
 }
 
-.top-card.silver .name,
-.top-card.bronze .name,
-.top-card.silver .wager,
-.top-card.bronze .wager,
+
 .top-card.silver .prize,
 .top-card.bronze .prize {
-  margin-top: 0px;
+  margin-top: 5px;
 }
 
 .leader-card .card-body {
   clip-path: polygon(
-    0 0, 100% 0,
-    /* зубцы */
-    100% 94%, 97.22% 100%, 
-    94.44% 94%, 91.67% 100%,
-    88.89% 94%, 86.11% 100%,
-    83.33% 94%, 80.56% 100%,
-    77.78% 94%, 75% 100%,
-    72.22% 94%, 69.44% 100%,
-    66.67% 94%, 63.89% 100%,
-    61.11% 94%, 58.33% 100%,
-    55.56% 94%, 52.78% 100%,
-    50% 94%, 47.22% 100%,
-    44.44% 94%, 41.67% 100%,
-    38.89% 94%, 36.11% 100%,
-    33.33% 94%, 30.56% 100%,
-    27.78% 94%, 25% 100%,
-    22.22% 94%, 19.44% 100%,
-    16.67% 94%, 13.89% 100%,
-    11.11% 94%, 8.33% 100%,
-    5.56% 94%, 2.78% 100%,
-    0 94%, 0 100%
+    0 100%, 2.5% 95%,
+    5% 100%, 7.5% 95%,
+    10% 100%, 12.5% 95%,
+    15% 100%, 17.5% 95%,
+    20% 100%, 22.5% 95%,
+    25% 100%, 27.5% 95%,
+    30% 100%, 32.5% 95%,
+    35% 100%, 37.5% 95%,
+    40% 100%, 42.5% 95%,
+    45% 100%, 47.5% 95%,
+    50% 100%, 52.5% 95%,
+    55% 100%, 57.5% 95%,
+    60% 100%, 62.5% 95%,
+    65% 100%, 67.5% 95%,
+    70% 100%, 72.5% 95%,
+    75% 100%, 77.5% 95%,
+    80% 100%, 82.5% 95%,
+    85% 100%, 87.5% 95%,
+    90% 100%, 92.5% 95%,
+    95% 100%, 97.5% 95%,
+    100% 100%, 100% 0, 0 0
   );
 }
 
 
+
+
+
+
+
+
+
+
+.top-card.gold {
+  position: relative;
+}
+
+.top-card.gold::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 95%;
+  height: 80%;
+  transform: translate(-50%, -60%);
+  border-radius: 12px;
+  pointer-events: none;
+  box-shadow: 0 0 25px 8px #44a6a6;
+  z-index: -1; /* ставим позади содержимого, но не уходим в -1 */
+  background: transparent; /* убираем фон */
+}
 
 
 
@@ -238,7 +261,7 @@ body {
 
 /* Таблица */
 .leaderboard-wrapper {
-  width: 750px;
+  width: 700px;
   margin: 0 auto;
 }
 
@@ -269,7 +292,7 @@ body {
 
  
 .leaderboard-table {
-  width: 750px;
+  width: 700px;
   border-collapse: separate;
   border-spacing: 0 8px;
   background: transparent;
@@ -278,11 +301,11 @@ body {
 /* Заголовок */
 .leaderboard-header-row {
   display: table;
-  width: 840px;
+  width: 700px;
   table-layout: fixed;
 }
 .leaderboard-header-row th {
-    transform: translateX(-45px);
+    transform: translateX(5px);
   padding: 6px 14px;
   font-size: 12px;
   letter-spacing: .4px;
@@ -313,9 +336,9 @@ body {
 
 /* Позиции в % */
 .leaderboard-table td:nth-child(1) { left: 1.5%;  width: 10%;  text-align: left; }
-.leaderboard-table td:nth-child(2) { left: 9%; width: 25%; text-align: left; }
-.leaderboard-table td:nth-child(3) { left: 24%; width: 30%; text-align: right; }
-.leaderboard-table td:nth-child(4) { left: 64%; width: 25%; text-align: right; }
+.leaderboard-table td:nth-child(2) { left: 14%; width: 25%; text-align: left; }
+.leaderboard-table td:nth-child(3) { left: 25%; width: 30%; text-align: right; }
+.leaderboard-table td:nth-child(4) { left: 61%; width: 25%; text-align: right; }
 
 /* Стиль строк */
 .leaderboard-table tbody tr {

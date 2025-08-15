@@ -203,7 +203,12 @@ a {
   object-fit: contain;
   z-index: 1000;
   pointer-events: none;
+<<<<<<< HEAD
   filter: drop-shadow(0 0 4px #44a6a6);
+=======
+  filter: drop-shadow(0 0 16px rgba(68, 166, 166, 0.5)); /* мягче и шире */
+
+>>>>>>> 5040124 (fixed v3)
 
 
   transform-origin: center center;
