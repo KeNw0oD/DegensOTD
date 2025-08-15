@@ -282,6 +282,7 @@ body {
   table-layout: fixed;
 }
 .leaderboard-header-row th {
+    transform: translateX(-45px);
   padding: 6px 14px;
   font-size: 12px;
   letter-spacing: .4px;
@@ -312,9 +313,9 @@ body {
 
 /* Позиции в % */
 .leaderboard-table td:nth-child(1) { left: 1.5%;  width: 10%;  text-align: left; }
-.leaderboard-table td:nth-child(2) { left: 15%; width: 25%; text-align: left; }
-.leaderboard-table td:nth-child(3) { left: 30%; width: 30%; text-align: right; }
-.leaderboard-table td:nth-child(4) { left: 70%; width: 25%; text-align: right; }
+.leaderboard-table td:nth-child(2) { left: 9%; width: 25%; text-align: left; }
+.leaderboard-table td:nth-child(3) { left: 24%; width: 30%; text-align: right; }
+.leaderboard-table td:nth-child(4) { left: 64%; width: 25%; text-align: right; }
 
 /* Стиль строк */
 .leaderboard-table tbody tr {
