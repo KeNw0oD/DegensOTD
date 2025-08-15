@@ -5,18 +5,21 @@ import { useState } from 'react';
 import AuthModal from './AuthModal';
 import WaveOverlay from './WaveOverlay';
 import { Funnel_Display } from 'next/font/google';
+import { logout } from "../lib/logout";
 
-/** ⬇️ ДОЛЖНО БЫТЬ СНАРУЖИ (module scope) */
 const funnel = Funnel_Display({
   weight: ['500', '600', '700'],
   subsets: ['latin'],
   display: 'swap',
 });
 
-export default function Header() {
+export default function Header({ nickname }) {
   const { data: session } = useSession();
   const [isOpen, setIsOpen] = useState(false);
   const [tab, setTab] = useState('login');
+
+  const displayName =
+    nickname || session?.user?.name || session?.user?.email || null;
 
   return (
     <>
@@ -32,28 +35,37 @@ export default function Header() {
           </nav>
 
           <div className="auth">
-            {session?.user ? (
+            {displayName ? (
               <>
-                {session.user.image && (
+                {session?.user?.image && (
                   <img
                     src={session.user.image}
                     alt=""
                     style={{ width: 24, height: 24, borderRadius: '50%', marginRight: 8 }}
                   />
                 )}
-                <span style={{ opacity: 0.8 }}>{session.user.name || session.user.email}</span>
+                <span style={{ opacity: 0.8 }}>{displayName}</span>
                 <span className="dot" />
-                <button className="btn btn--ghost" onClick={() => signOut({ callbackUrl: '/' })}>
+                <button
+                  className="btn btn--ghost"
+                  onClick={logout}
+                >
                   Logout
                 </button>
               </>
             ) : (
               <>
-                <button onClick={() => { setTab('login'); setIsOpen(true); }} className="btn btn--ghost">
+                <button
+                  onClick={() => { setTab('login'); setIsOpen(true); }}
+                  className="btn btn--ghost"
+                >
                   Login
                 </button>
                 <span className="dot" />
-                <button onClick={() => { setTab('register'); setIsOpen(true); }} className="btn btn--primary">
+                <button
+                  onClick={() => { setTab('register'); setIsOpen(true); }}
+                  className="btn btn--primary"
+                >
                   Register
                 </button>
               </>
@@ -61,7 +73,11 @@ export default function Header() {
           </div>
         </div>
 
-        <AuthModal isOpen={isOpen} onClose={() => setIsOpen(false)} defaultTab={tab} />
+        <AuthModal
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          defaultTab={tab}
+        />
       </header>
 
       <WaveOverlay />

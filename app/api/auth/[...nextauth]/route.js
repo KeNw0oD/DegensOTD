@@ -1,12 +1,8 @@
 import NextAuth from "next-auth";
+import { createClient } from "@supabase/supabase-js";
 
 /**
- * Kick OAuth provider for NextAuth (OAuth 2.1, без OIDC).
- * Требует в .env:
- * - NEXTAUTH_URL=http://localhost:3000
- * - NEXTAUTH_SECRET=... (любой сильный секрет)
- * - KICK_CLIENT_ID=...
- * - KICK_CLIENT_SECRET=...
+ * Kick OAuth provider
  */
 function KickProvider() {
   return {
@@ -14,7 +10,6 @@ function KickProvider() {
     name: "Kick",
     type: "oauth",
     version: "2.0",
-    // отключаем OIDC discovery — у Kick нет /userinfo
     wellKnown: null,
     checks: ["pkce", "state"],
     authorization: {
@@ -25,7 +20,6 @@ function KickProvider() {
         code_challenge_method: "S256",
       },
     },
-    // Можно оставить просто строкой, но ниже кастомный request ради логов
     token: {
       url: "https://id.kick.com/oauth/token",
       async request(context) {
@@ -42,8 +36,6 @@ function KickProvider() {
           redirect_uri,
         };
 
-        console.log("TOKEN REQUEST DATA", payload);
-
         const res = await fetch("https://id.kick.com/oauth/token", {
           method: "POST",
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -51,27 +43,18 @@ function KickProvider() {
         });
 
         const raw = await res.text();
-        console.log("TOKEN STATUS:", res.status);
-        console.log("TOKEN RAW:", raw);
-
         let json;
-        try { json = JSON.parse(raw); } catch {}
+        try {
+          json = JSON.parse(raw);
+        } catch {}
         if (!res.ok || !json) {
           throw new Error(`Kick token error (${res.status}): ${raw || "no JSON"}`);
         }
         return { tokens: json };
       },
     },
-
-    /**
-     * Вместо OIDC /userinfo тянем профиль через публичный API Kick:
-     * GET https://api.kick.com/public/v1/users
-     * (текущий пользователь определяется по access_token)
-     */
     userinfo: {
       async request({ tokens }) {
-        console.log("FETCHING PROFILE with access_token:", tokens?.access_token ? "[present]" : "[missing]");
-
         const res = await fetch("https://api.kick.com/public/v1/users", {
           headers: {
             Authorization: `Bearer ${tokens.access_token}`,
@@ -80,12 +63,14 @@ function KickProvider() {
         });
 
         const raw = await res.text();
-        console.log("USER RAW:", raw);
-
         let json;
-        try { json = JSON.parse(raw); } catch { json = {}; }
-
+        try {
+          json = JSON.parse(raw);
+        } catch {
+          json = {};
+        }
         const u = json?.data?.[0] || {};
+
         return {
           id: u.user_id ?? "",
           name: u.name ?? null,
@@ -94,10 +79,6 @@ function KickProvider() {
         };
       },
     },
-
-    /**
-     * Приводим профиль к формату NextAuth
-     */
     profile(profile) {
       return {
         id: String(profile.id || ""),
@@ -106,27 +87,73 @@ function KickProvider() {
         image: profile.image || null,
       };
     },
-
     clientId: process.env.KICK_CLIENT_ID,
     clientSecret: process.env.KICK_CLIENT_SECRET,
-    // callbackUrl выставляется NextAuth автоматически из NEXTAUTH_URL + маршрут
   };
 }
+
+// Supabase client (service key for writes)
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_ROLE_KEY
+);
 
 const handler = NextAuth({
   providers: [KickProvider()],
   session: { strategy: "jwt" },
   debug: true,
 
-  events: {
-    error(message) {
-      console.error("NextAuth error:", message);
-    },
-  },
-
   callbacks: {
+    async signIn({ user, account }) {
+      if (account.provider === "kick") {
+        const email = user.email?.trim().toLowerCase() || null;
+        const kickId = user.id;
+
+        // 1. Если есть email — проверяем в базе
+        if (email) {
+          const { data: existing } = await supabase
+            .from("users")
+            .select("password_hash")
+            .eq("email", email)
+            .maybeSingle();
+
+          if (existing?.password_hash) {
+            console.warn(`Kick login blocked: ${email} already used by password account`);
+            // Редиректим сразу на наш сайт с query параметром
+            return `/?error=EMAIL_EXISTS`;
+          } 
+        }
+
+        // 2. Сохраняем или обновляем пользователя
+        const { error } = await supabase.from("users").upsert(
+          {
+            email,
+            kick_id: kickId,
+            nickname: user.name,
+            is_verified: true,
+          },
+          { onConflict: "kick_id" }
+        );
+
+        if (error) {
+          console.error("Failed to save Kick user:", error);
+          throw new Error("REDIRECT:/?error=SAVE_FAILED");
+        }
+      }
+      return true;
+    },
+
+    async redirect({ url, baseUrl }) {
+      // Обрабатываем наш кастомный "редирект"
+      if (url.startsWith("REDIRECT:")) {
+        return url.replace("REDIRECT:", "");
+      }
+      if (url.startsWith("/")) return `${baseUrl}${url}`;
+      if (new URL(url).origin === baseUrl) return url;
+      return baseUrl;
+    },
+
     async session({ session, token }) {
-      // гарантируем наличие session.user
       session.user = session.user || {};
       session.user.id = token?.sub || null;
       return session;
@@ -135,10 +162,8 @@ const handler = NextAuth({
 });
 
 export async function GET(req, ctx) {
-  console.log("AUTH GET:", req.nextUrl.pathname, req.nextUrl.search);
   return handler(req, ctx);
 }
 export async function POST(req, ctx) {
-  console.log("AUTH POST:", req.nextUrl.pathname, req.nextUrl.search);
   return handler(req, ctx);
 }
