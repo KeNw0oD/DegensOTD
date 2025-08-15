@@ -1,0 +1,349 @@
+.leaderboard {
+  padding-top: 20px; /* немного отступа от хедера */
+  padding-bottom: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+body {
+  overflow: hidden;
+}
+
+/* Заголовок */
+.leaderboard-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+.leaderboard-header h1 {
+  font-size: 2.4rem;
+  font-weight: bold;
+  color: #61d5c8;
+  margin: 0;
+}
+.leaderboard-header p {
+  margin: 0;
+  color: #ccc;
+  font-size: 1.8rem;
+}
+.leaderboard-header span {
+  color: #61d5c8;
+}
+
+/* ТОП-3 контейнер */
+.top-three {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+
+.top-card {
+  position: relative;
+  width: 270px;
+  text-align: center;
+  border-radius: 0;
+}
+
+
+.card-header {
+  position: absolute;
+  top: -20px;
+  left: 0;
+  right: 0;
+  background: #fff;
+  color: #000;
+  font-size: 17px;
+  padding: 3px 0;
+  border-radius: 6px 6px 6px 6px;
+  z-index: 2;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+
+.card-body {
+  padding: 10px;
+}
+
+
+.card-body .place {
+  font-size: 28px;
+  margin-top: 0;
+}
+
+.card-body .name {
+  font-weight: bold;
+  font-size: 17px;
+  margin-top: 6px;
+}
+
+.card-body .wager {
+  font-size: 16px;
+  color: #39475a;
+  margin-top: 4px;
+  font-weight: bold;
+}
+
+.card-body .prize {
+  font-size: 22px;
+  font-weight: bold;
+  color: #151c26;
+  margin-top: 6px;
+}
+
+
+.top-card.silver .card-body {
+  background:  #6fa0a6 ;
+
+  border-bottom-left-radius: 200px; 
+}
+
+.top-card.gold .card-body {
+  background: #42a6a8;
+  min-height: 160px; 
+}
+
+.top-card.bronze .card-body {
+  background: #366d73;
+  border-bottom-right-radius: 200px; 
+}
+
+
+.top-card.gold .card-header {
+  width: 110%;       
+  left: -5%;         
+  border-radius: 6px 6px 6px 6px;
+}
+
+
+
+.top-card.silver,
+.top-card.bronze {
+  transform: translateY(-25px);
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+.top-card.silver .place,
+.top-card.bronze .place {
+  margin-top: 0;
+}
+
+.top-card.silver .name,
+.top-card.bronze .name,
+.top-card.silver .wager,
+.top-card.bronze .wager,
+.top-card.silver .prize,
+.top-card.bronze .prize {
+  margin-top: 0px;
+}
+
+.leader-card .card-body {
+  clip-path: polygon(
+    0 0, 100% 0, 100% 94%, 
+    97% 100%, 94% 94%, 91% 100%, 
+    88% 94%, 85% 100%, 82% 94%, 
+    79% 100%, 76% 94%, 73% 100%, 
+    70% 94%, 67% 100%, 64% 94%, 
+    61% 100%, 58% 94%, 55% 100%, 
+    52% 94%, 49% 100%, 46% 94%, 
+    43% 100%, 40% 94%, 37% 100%, 
+    34% 94%, 31% 100%, 28% 94%, 
+    25% 100%, 22% 94%, 19% 100%, 
+    16% 94%, 13% 100%, 10% 94%, 
+    7% 100%, 4% 94%, 0 100%
+  );
+}
+
+.gold .wager,
+.gold .prize {
+  text-align: center;
+}
+
+.silver .wager,
+.silver .prize {
+  text-align: right;
+}
+
+.bronze .wager,
+.bronze .prize {
+  text-align: left;
+}
+
+.medal {
+  width: 30px;
+  height: auto;
+  margin: 5px auto;
+}
+
+.medal-left {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px; /* расстояние между медалью и текстом */
+}
+
+.medal-left .text-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end; /* текст вправо */
+}
+
+.medal {
+  width: 36px;
+  height: auto;
+  margin-bottom: 0px;
+  margin-top: 0px;
+}
+
+.card-body.medal-right {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* текст слева, медаль справа */
+  gap: 10px;
+}
+
+.card-body.medal-right .text-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* выравниваем текст по левому краю */
+}
+
+.card-body.medal-right .medal {
+  width: 36px;
+  height: auto;
+}
+
+
+
+
+/* Таблица */
+.leaderboard-wrapper {
+  width: 750px;
+  margin: 0 auto;
+}
+
+/* Отдельный скролл только для тела */
+/* Контейнер скролла */
+.leaderboard-scroll {
+  max-height: 360px;
+  overflow-y: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  scroll-snap-type: y mandatory; /* плавная остановка на строках */
+}
+.leaderboard-scroll::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+/* Каждая строка фиксированной высоты + привязка */
+.leaderboard-table tbody tr {
+  height: 40px; /* фиксируем высоту строки */
+  scroll-snap-align: start; /* приостанавливаем на начале строки */
+  background: #19363c;
+  border: 1px solid #19363c;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  transition: background .15s ease, border-color .15s ease, transform .15s ease;
+}
+
+ 
+.leaderboard-table {
+  width: 750px;
+  border-collapse: separate;
+  border-spacing: 0 8px;
+  background: transparent;
+}
+
+/* Заголовок */
+.leaderboard-header-row {
+  display: table;
+  width: 840px;
+  table-layout: fixed;
+}
+.leaderboard-header-row th {
+  padding: 6px 14px;
+  font-size: 12px;
+  letter-spacing: .4px;
+  text-transform: uppercase;
+  color: #ffffff;
+  background: transparent;
+}
+
+/* Строки как flex */
+.leaderboard-table tr {
+  display: flex;
+  position: relative;
+  height: 32px;
+}
+
+/* Ячейки с позиционированием */
+.leaderboard-table td {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 12px;
+  color: #e8eef0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  align-items: center; 
+}
+
+/* Позиции в % */
+.leaderboard-table td:nth-child(1) { left: 1.5%;  width: 10%;  text-align: left; }
+.leaderboard-table td:nth-child(2) { left: 15%; width: 25%; text-align: left; }
+.leaderboard-table td:nth-child(3) { left: 30%; width: 30%; text-align: right; }
+.leaderboard-table td:nth-child(4) { left: 70%; width: 25%; text-align: right; }
+
+/* Стиль строк */
+.leaderboard-table tbody tr {
+  position: relative; /* ключ! фон и радиус теперь будут на слое */
+  background: #19363c;
+  border: 1px solid #19363c;
+  border-radius: 6px;
+  overflow: hidden; /* чтобы фон шёл до краёв */
+  height: 32px;
+  margin-bottom: 8px;
+  transition: background .15s ease, border-color .15s ease, transform .15s ease;
+}
+
+
+.leaderboard-table tbody tr:hover {
+  background: rgba(255,255,255,.10);
+  border-color: rgba(255,255,255,.14);
+  transform: translateY(-1px);
+}
+
+
+
+
+
+
+
+
+
+
+
+/* Кнопка */
+.cta {
+  text-align: center;
+  margin-top: 30px;
+}
+.cta button {
+  background-color: #3da69a;
+  color: #fff;
+  font-weight: bold;
+  padding: 6px 22px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  font-size: 18px;
+}
+.cta button:hover {
+  background-color: #2e7d73;
+}

@@ -59,11 +59,17 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={funnel.className}>
         <Providers>
+          {/* Логотип по центру экрана */}
+          <img src="/logo-D.png" alt="Degens OTD" className="logo-center" />
+
+          {/* Логотип в шапке */}
           <img src="/logo.png" alt="Degens OTD" className="logo-fixed" />
-          <Header nickname={nickname} /> {/* Передаём ник в Header */}
+
+          <Header nickname={nickname} />
           <main className="main">{children}</main>
           <Footer />
         </Providers>
+
 
         {isModalOpen && (
           <AuthModal

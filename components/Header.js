@@ -1,11 +1,13 @@
 'use client';
 
-import { useSession, signOut } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 import AuthModal from './AuthModal';
 import WaveOverlay from './WaveOverlay';
 import { Funnel_Display } from 'next/font/google';
 import { logout } from "../lib/logout";
+import Link from "next/link";
+import { usePathname } from "next/navigation"; // ✅ добавили
 
 const funnel = Funnel_Display({
   weight: ['500', '600', '700'],
@@ -17,6 +19,7 @@ export default function Header({ nickname }) {
   const { data: session } = useSession();
   const [isOpen, setIsOpen] = useState(false);
   const [tab, setTab] = useState('login');
+  const pathname = usePathname(); // ✅ узнаём текущий путь
 
   const displayName =
     nickname || session?.user?.name || session?.user?.email || null;
@@ -26,7 +29,14 @@ export default function Header({ nickname }) {
       <header className="header">
         <div className={`header-inner ${funnel.className}`}>
           <nav className="menu" aria-label="Main">
-            <a href="#" className="menu__link is-active">Leaderboard</a>
+            {/* Кнопка меняется автоматически */}
+            <Link
+              href={pathname === '/leaderboard' ? '/' : '/leaderboard'}
+              className="menu__link is-active"
+            >
+              {pathname === '/leaderboard' ? 'Home' : 'Leaderboard'}
+            </Link>
+
             <a href="#" className="menu__link">Stream Schedule</a>
             <a href="#" className="menu__link">Community Pot</a>
             <a href="#" className="menu__link">Big Win Clip</a>
