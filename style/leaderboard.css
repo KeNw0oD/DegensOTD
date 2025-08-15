@@ -44,7 +44,7 @@ body {
   position: relative;
   width: 270px;
   text-align: center;
-  border-radius: 0;
+  border-radius: 0px;
 }
 
 
@@ -76,7 +76,6 @@ body {
 .card-body .name {
   font-weight: bold;
   font-size: 17px;
-  margin-top: 6px;
 }
 
 .card-body .wager {
@@ -96,18 +95,20 @@ body {
 
 .top-card.silver .card-body {
   background:  #6fa0a6 ;
+  border-bottom-right-radius: 25px;
 
   border-bottom-left-radius: 200px; 
 }
 
 .top-card.gold .card-body {
   background: #42a6a8;
-  min-height: 160px; 
+  min-height: 150px; 
 }
 
 .top-card.bronze .card-body {
   background: #366d73;
   border-bottom-right-radius: 200px; 
+  border-bottom-left-radius: 25px;
 }
 
 
@@ -121,7 +122,7 @@ body {
 
 .top-card.silver,
 .top-card.bronze {
-  transform: translateY(-25px);
+  transform: translateY(-20px);
   padding-top: 0px;
   padding-bottom: 0px;
 }
@@ -142,20 +143,36 @@ body {
 
 .leader-card .card-body {
   clip-path: polygon(
-    0 0, 100% 0, 100% 94%, 
-    97% 100%, 94% 94%, 91% 100%, 
-    88% 94%, 85% 100%, 82% 94%, 
-    79% 100%, 76% 94%, 73% 100%, 
-    70% 94%, 67% 100%, 64% 94%, 
-    61% 100%, 58% 94%, 55% 100%, 
-    52% 94%, 49% 100%, 46% 94%, 
-    43% 100%, 40% 94%, 37% 100%, 
-    34% 94%, 31% 100%, 28% 94%, 
-    25% 100%, 22% 94%, 19% 100%, 
-    16% 94%, 13% 100%, 10% 94%, 
-    7% 100%, 4% 94%, 0 100%
+    0 0, 100% 0,
+    /* зубцы */
+    100% 94%, 97.22% 100%, 
+    94.44% 94%, 91.67% 100%,
+    88.89% 94%, 86.11% 100%,
+    83.33% 94%, 80.56% 100%,
+    77.78% 94%, 75% 100%,
+    72.22% 94%, 69.44% 100%,
+    66.67% 94%, 63.89% 100%,
+    61.11% 94%, 58.33% 100%,
+    55.56% 94%, 52.78% 100%,
+    50% 94%, 47.22% 100%,
+    44.44% 94%, 41.67% 100%,
+    38.89% 94%, 36.11% 100%,
+    33.33% 94%, 30.56% 100%,
+    27.78% 94%, 25% 100%,
+    22.22% 94%, 19.44% 100%,
+    16.67% 94%, 13.89% 100%,
+    11.11% 94%, 8.33% 100%,
+    5.56% 94%, 2.78% 100%,
+    0 94%, 0 100%
   );
 }
+
+
+
+
+
+
+
 
 .gold .wager,
 .gold .prize {
